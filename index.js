@@ -28,6 +28,7 @@ app.get('/users', (request, response) => {
 })
 
 app.post('/users', (request, response) => {
+try {
     const { order, clientName, price, status } = request.body
 
     const user = { id: uuid.v4(), order, clientName, price, status }
@@ -35,6 +36,9 @@ app.post('/users', (request, response) => {
     users.push(user)
 
     return response.status(201).json(user)
+} catch(err){
+    return response.status(500).json({error:err.message})
+}
 })
 
 app.put('/users/:id', checkUserId, (request, response) => {
